@@ -17,11 +17,15 @@ function App() {
     setItems((items) => [...items, item]);
   };
 
+  const handleDeleteItem = (id) => {
+    setItems(items => items.filter(item => item.id !== id))
+  };
+
   return (
     <div className="App">
       <Logo />
       <Form onAddItems={handleAddItems} /> {/**the way the prop i snamed is based on a convention */}
-      <PackingList items={items} />
+      <PackingList items={items} onDeleteItem={handleDeleteItem} />
       <Stats />
     </div>
   );
@@ -62,19 +66,19 @@ const Form = ({onAddItems}) => {
   )
 };
 
-const PackingList = ({items}) => {
+const PackingList = ({items, onDeleteItem}) => {
   return <div className="list">
     <ul>
-      {items.map(item => <Item item={item} key={item.id}/>)}
+      {items.map(item => <Item item={item} onDeleteItem={onDeleteItem} key={item.id}/>)}
     </ul>
   </div>
 };
 
-const Item = ({item}) => {
+const Item = ({item, onDeleteItem}) => {
   return (
      <li>
         <span style={item.packed ? {textDecoration: "line-through"} : {}}>{item.quantity} {item.description}</span>
-        <button>❌</button>
+        <button onClick={() => onDeleteItem(item.id)}>❌</button>
     </li>
     )
 };
