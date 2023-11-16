@@ -30,7 +30,7 @@ function App() {
       <Logo />
       <Form onAddItems={handleAddItems} /> {/**the way the prop i snamed is based on a convention */}
       <PackingList items={items} onDeleteItem={handleDeleteItem} onToggleItem={handleToggleItem} />
-      <Stats />
+      <Stats items={items} />
     </div>
   );
 }
@@ -88,8 +88,15 @@ const Item = ({item, onDeleteItem, onToggleItem}) => {
     )
 };
 
-const Stats = () => {
-  return <footer className="stats">
-    <em>You have X items on your list, and you already placked X (X%)</em>
-  </footer>
+const Stats = ({items}) => {
+  const numItems = items.length; /**derived state */
+  const numPacked = items.filter((item) => item.packed).length;
+  const percentage = Math.round((numPacked / numItems)*100);
+  return (
+  <footer className="stats">
+    <em>
+      {percentage === 100 ? "you've got everything ready!" : 
+      `You have {numItems} items on your list, and you already placked {numPacked} ({percentage}%)`}
+    </em>
+  </footer>)
 };
