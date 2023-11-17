@@ -71,10 +71,31 @@ const Form = ({onAddItems}) => {
 };
 
 const PackingList = ({items, onDeleteItem, onToggleItem}) => {
+  /**state and derived state creation */
+  const [sortBy, setSortBy] = useState("input");
+  let sortedItems;
+
+  /**logic for sorting the packing list based on criterion in select elem */
+  if (sortBy === "input") sortedItems = items;
+  if (sortBy === "description") {
+    sortedItems = items.slice().sort((a, b) => a.description.localeCompare(b.description));
+  }
+  if (sortBy === "packed") {
+    sortedItems = items.slice().sort((a, b) => Number(a.packed) - Number(b.packed));
+  }
+
+  /**Rendering of the component */
   return <div className="list">
     <ul>
-      {items.map(item => <Item item={item} onDeleteItem={onDeleteItem} onToggleItem={onToggleItem} key={item.id}/>)}
+      {sortedItems.map(item => <Item item={item} onDeleteItem={onDeleteItem} onToggleItem={onToggleItem} key={item.id}/>)}
     </ul>
+    <div className="actions">
+      <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+        <option value='input'>sort by input order</option>
+        <option value='description'>sort by description order</option>
+        <option value='packed'>sort by packed status</option>
+      </select>
+    </div>
   </div>
 };
 
@@ -96,7 +117,7 @@ const Stats = ({items}) => {
   <footer className="stats">
     <em>
       {percentage === 100 ? "you've got everything ready!" : 
-      `You have {numItems} items on your list, and you already placked {numPacked} ({percentage}%)`}
+      `You have ${numItems} items on your list, and you already placked ${numPacked} (${percentage}%)`}
     </em>
   </footer>)
 };
