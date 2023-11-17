@@ -25,11 +25,14 @@ function App() {
     setItems(items => items.map(item => item.id === id ? {...item, packed: !item.packed} : item));
   };
 
+  const clearList = () => {setItems([])};
+
+
   return (
     <div className="App">
       <Logo />
       <Form onAddItems={handleAddItems} /> {/**the way the prop i snamed is based on a convention */}
-      <PackingList items={items} onDeleteItem={handleDeleteItem} onToggleItem={handleToggleItem} />
+      <PackingList items={items} onDeleteItem={handleDeleteItem} onToggleItem={handleToggleItem} onClear={clearList} />
       <Stats items={items} />
     </div>
   );
@@ -70,7 +73,7 @@ const Form = ({onAddItems}) => {
   )
 };
 
-const PackingList = ({items, onDeleteItem, onToggleItem}) => {
+const PackingList = ({items, onDeleteItem, onToggleItem, onClear}) => {
   /**state and derived state creation */
   const [sortBy, setSortBy] = useState("input");
   let sortedItems;
@@ -95,6 +98,7 @@ const PackingList = ({items, onDeleteItem, onToggleItem}) => {
         <option value='description'>sort by description order</option>
         <option value='packed'>sort by packed status</option>
       </select>
+      <button onClick={ (e) => {onClear()}}>Clear list</button>
     </div>
   </div>
 };
