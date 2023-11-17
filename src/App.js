@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Logo from './Logo';
-import Form from './Form';
-import PackingList from './PackingList';
-import Stats from './Stats';
+import Logo from './Components/Logo';
+import Form from './Components/Form';
+import PackingList from './Components/PackingList';
+import Stats from './Components/Stats';
 
 /*this array was used for example at first, before the app was able to manage ne entries from the interface*/
   const initialItems = [
