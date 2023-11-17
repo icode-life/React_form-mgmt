@@ -25,7 +25,10 @@ function App() {
     setItems(items => items.map(item => item.id === id ? {...item, packed: !item.packed} : item));
   };
 
-  const clearList = () => {setItems([])};
+  const clearList = () => {
+    const confirmed = window.confirm("Are you sure you want to flush it all?");
+    if (confirmed) setItems([]);
+  };
 
 
   return (
@@ -98,7 +101,7 @@ const PackingList = ({items, onDeleteItem, onToggleItem, onClear}) => {
         <option value='description'>sort by description order</option>
         <option value='packed'>sort by packed status</option>
       </select>
-      <button onClick={ (e) => {onClear()}}>Clear list</button>
+      <button onClick={onClear}>Clear list</button>
     </div>
   </div>
 };
